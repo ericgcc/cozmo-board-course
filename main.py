@@ -11,6 +11,23 @@ def cozmo_program(robot: cozmo.robot.Robot):
 
     m = CustomMap(robot)
 
+    action = robot.go_to_pose(m.stop_1, relative_to_robot=False)
+    action.wait_for_completed()
+
+    action = robot.go_to_pose(m.stop_2, relative_to_robot=False)
+    action.wait_for_completed()
+
+    action = robot.go_to_pose(m.stop_3, relative_to_robot=False)
+    action.wait_for_completed()
+
+    action = robot.go_to_pose(m.stop_4, relative_to_robot=False)
+    action.wait_for_completed()
+
+    action = robot.go_to_pose(m.stop_5, relative_to_robot=False)
+    action.wait_for_completed()
+
+    action = robot.go_to_pose(m.stop_6, relative_to_robot=False)
+    action.wait_for_completed()
 
     while True:
         time.sleep(1)
