@@ -44,56 +44,54 @@ class ActionManager:
         self.robot.play_anim_trigger(cozmo.anim.Triggers.DanceMambo).wait_for_completed()
 
     def action_02(self):
-        print("*** action 02: Cubes Stack ***")
-        print("!!! .: SHOW COZMO TWO CUBES :. !!!")
+        print("*** action 02: Pop a wheelie ***")
+        print("!!! .: SHOW COZMO ONE CUBES :. !!!")
 
-        # Essai d'émpiler 2 cubes
-        # Regarde autour de soi, jusqu'à ce que Cozmo sache où sont au moins 2 cubes :
         lookaround = self.robot.start_behavior(cozmo.behavior.BehaviorTypes.LookAroundInPlace)
-        cubes = self.robot.world.wait_until_observe_num_objects(num=2, object_type=cozmo.objects.LightCube, timeout=60)
+        cube = self.robot.world.wait_until_observe_num_objects(num=1, object_type=cozmo.objects.LightCube, timeout=60)
         lookaround.stop()
 
-        if len(cubes) < 2:
-            print("Error: need 2 Cubes but only found", len(cubes), "Cube(s)")
+        if len(cube) < 1:
+            print("Error: 1 cube needed")
         else:
-            # Essai de ramasser le 1er cube
-            current_action = self.robot.pickup_object(cubes[0], num_retries=3)
-            current_action.wait_for_completed()
-            if current_action.has_failed:
-                code, reason = current_action.failure_reason
-                result = current_action.result
-                print("Pickup Cube failed: code=%s reason='%s' result=%s" % (code, reason, result))
-                return
-
-            # Maintenant, essai de placer ce cube sur le 2ème.
-            current_action = self.robot.place_on_object(cubes[1], num_retries=3)
-            current_action.wait_for_completed()
-
+            self.robot.pop_a_wheelie(cube, approach_angle=degrees(-90), num_retries=2)
 
     def action_03(self):
-        print("*** action 03: Cubes unstack ***")
-        print("!!! .: SHOW COZMO TWO STACKED CUBES :. !!!")
+        print("*** action 03: Roll a cube ***")
+        print("!!! .: SHOW COZMO ONE CUBE :. !!!")
         lookaround = self.robot.start_behavior(cozmo.behavior.BehaviorTypes.LookAroundInPlace)
-        cubes = self.robot.world.wait_until_observe_num_objects(num=2, object_type=cozmo.objects.LightCube, timeout=60)
+        cube = self.robot.world.wait_until_observe_num_objects(num=1, object_type=cozmo.objects.LightCube, timeout=60)
         lookaround.stop()
 
-        if len(cubes) < 2:
-            print("Error: need 2 Cubes but only found", len(cubes), "Cube(s)")
+        if len(cube) < 1:
+            print("Error: 1 cube needed")
         else:
-            pickup = self.robot.pickup_object(cubes[1], num_retries=3).wait_for_completed()
-            self.robot.turn_in_place(degrees(90)).wait_for_completed()
-            self.robot.place_object_on_ground_here(cubes[1]).wait_for_completed()
-
-            if not pickup:
-                self.robot.pickup_object(cubes[0], num_retries=3).wait_for_completed()
-                self.robot.turn_in_place(degrees(90)).wait_for_completed()
-                self.robot.place_object_on_ground_here(cubes[0]).wait_for_completed()
+            self.robot.roll_cube(cube, approach_angle=degrees(-90), num_retries=2)
 
     def action_04(self):
-        print("*** action 04: Face recognition ***")
-        findfaces= self.robot.start_behavior(cozmo.behavior.BehaviorTypes.FindFaces)
-        face = self.robot.world.wait_for_observed_face(timeout=None, include_existing=True)
-        findfaces.stop()
+        print("*** action 04: Play a song ***")
 
-        if face is not None:
-            self.robot.say_text(f"{face.name}").wait_for_completed()
+        # Create an array of SongNote objects, consisting of all notes from C2 to C3_Sharp
+        notes = [
+            cozmo.song.SongNote(cozmo.song.NoteTypes.E2, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.A2_Sharp, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.C2, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.D2_Sharp, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.A2, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.C2, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.D2_Sharp, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.B2, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.D2_Sharp, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.G2, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.C2, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.B2, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.D2, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.G2, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.C2, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.B2, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.A2, cozmo.song.NoteDurations.Quarter),
+            cozmo.song.SongNote(cozmo.song.NoteTypes.Rest, cozmo.song.NoteDurations.Quarter) 
+            ]
+
+        # Play the ascending notes
+       self.robot.play_song(notes, loop_count=1).wait_for_completed()
