@@ -1,16 +1,20 @@
 import cozmo
 from cozmo.util import degrees, Pose
+import random
 
 class CustomMap:
 
     def __init__(self, robot: cozmo.robot.Robot):
         self.robot = robot
-        self.stop_1 = Pose(300, 150, 0, angle_z=degrees(135))
-        self.stop_2 = Pose(300, -150, 0, angle_z=degrees(180))
-        self.stop_3 = Pose(450, 400, 0, angle_z=degrees(90))
-        self.stop_4 = Pose(350, 80, 0, angle_z=degrees(45))
-        self.stop_5 = Pose(650, -150, 0, angle_z=degrees(-45))
-        self.stop_6 = Pose(0, 0, 0, angle_z=degrees(0))
+        stop_1 = Pose(200, 250, 0, angle_z=degrees(135))
+        stop_2 = Pose(200, -275, 0, angle_z=degrees(180))
+        stop_3 = Pose(450, 250, 0, angle_z=degrees(45))
+        stop_4 = Pose(750, 300, 0, angle_z=degrees(90))
+        stop_5 = Pose(750, -150, 0, angle_z=degrees(-45))
+        stop_6 = Pose(0, 0, 0, angle_z=degrees(0))
+        self.stops = [stop_1, stop_2, stop_3, stop_4, stop_5]
+        random.shuffle(self.stops)
+        self.stops.append(stop_6)
 
         self.WALL_HEIGHT = 36.957  # mm
         self.WALL_WIDTH = 16.383  # mm
