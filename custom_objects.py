@@ -59,22 +59,22 @@ def custom_object_pose(robot, custom_object):
 def objects(robot: cozmo.robot.Robot):
 
     return [robot.world.define_custom_cube(CustomObjectTypes.CustomType00,
-                                                 CustomObjectMarkers.Circles4,
-                                                 50, 24.19, 24.19, True),
+                                                 CustomObjectMarkers.Circles2,
+                                                 25.4, 25.4, 25.4, True),
 
             robot.world.define_custom_cube(CustomObjectTypes.CustomType01,
-                                           CustomObjectMarkers.Hexagons4,
-                                            50, 24.19, 24.19, True),
+                                           CustomObjectMarkers.Hexagons3,
+                                            25.4, 25.4, 25.4, True),
 
             robot.world.define_custom_cube(CustomObjectTypes.CustomType02,
                                            CustomObjectMarkers.Triangles3,
-                                            50, 24.19, 24.19, True),
+                                            25.4, 25.4, 25.4, True),
 
             robot.world.define_custom_cube(CustomObjectTypes.CustomType03,
-                                           CustomObjectMarkers.Hexagons5,
-                                            50, 24.19, 24.19, True),
+                                           CustomObjectMarkers.Diamonds2,
+                                            25.4, 25.4, 25.4, True),
 
             robot.world.define_custom_cube(CustomObjectTypes.CustomType04,
-                                           CustomObjectMarkers.Diamonds3,
-                                            50, 24.19, 24.19, True),
+                                           CustomObjectMarkers.Circles3,
+                                            25.4, 25.4, 25.4, True),
             ]
